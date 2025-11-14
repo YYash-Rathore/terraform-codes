@@ -1,3 +1,7 @@
+# Output Block is used to print the Output 
+# It prints the arguements
+# Arguements is the data of the Instance being created
+
 output "ec2_public_ip" {
   value = aws_instance.my_instance.public_ip
 }
