@@ -66,6 +66,15 @@ resource "aws_security_group" "my_security_group" {
 
 # EC2 Instacne Creation
 resource "aws_instance" "my_instance" {
+
+  # Used to create multiple instance 
+  # count = 2
+
+  for_each = tomap({
+    my-micro-instance = "t2.micro"
+    my-medium-instance = "t2.medium"
+  })
+
   # Using the public key
   key_name = aws_key_pair.my_key.key_name
   # Using the security group
@@ -73,7 +82,11 @@ resource "aws_instance" "my_instance" {
   #instance_type = "t2.micro"
 
   # Defining the Type and AMI for the instance
-  instance_type = var.ec2_instance_type
+  # instance_type = var.ec2_instance_type
+
+  # Each Value Value
+  instance_type = each.value
+
   #ami = "ami-02b8269d5e85954ef"
   ami = var.ec2_ami_id
 
@@ -84,7 +97,8 @@ resource "aws_instance" "my_instance" {
   }
 
   tags = {
-    name = "automated-ec2"
+    # for each key
+    Name = each.key
   }
   
 }
