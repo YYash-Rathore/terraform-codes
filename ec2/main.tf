@@ -92,7 +92,7 @@ resource "aws_instance" "my_instance" {
 
   # Defining the Volume of the Instance
   root_block_device {
-    volume_size = var.root_storage_type
+    volume_size = var.env == "prod" ? 20 : var.root_storage_type
     volume_type = "gp3"
   }
 
